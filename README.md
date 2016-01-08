@@ -1,3 +1,3 @@
 ## harmonic-manager
 
-Harmonic Manager https://github.com/JSRocksHQ/harmonic
+(Harmonic)[https://github.com/JSRocksHQ/harmonic] Manager
