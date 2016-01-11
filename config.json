@@ -1,0 +1,9 @@
+{
+  "icon": "./media/icon.png",
+  "external_urls": {
+    "changelog": "https://github.com/ftonato/harmonic-manager",
+    "harmonic": "https://github.com/JSRocksHQ/harmonic",
+    "harmonic_manager": "https://github.com/ftonato/harmonic-manager",
+    "twitter": "https:twitter.com/ftonato"
+  }
+}

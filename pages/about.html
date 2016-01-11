@@ -1,0 +1,46 @@
+<html>
+<head>
+  <title>About - Harmonic Manager</title>
+
+  <link rel="stylesheet" href="http://milligram.github.io/css/milligram.min.css">
+</head>
+<body>
+  <h1 style="text-align:center">Harmonic Manager</h1>
+
+  <footer>
+    Copyright &copy; 2016-<span class="year"></span> <a <a class="url_external harmonic_manager" href="#" title="Harmonic Manager">Harmonic Manager</a>
+    <br>
+    Maintained by <a class="url_external twitter" href="#" title="Twitter">@</a>
+    
+  </footer>
+  <script>
+    var config = require('../config.json')
+    var shell = require('shell')
+
+    var d = new Date();
+    var year = d.getFullYear();
+
+    document.getElementsByClassName('year')[0].innerHTML = year;    
+
+
+        // SET Harmonic Manager
+        var harmonic_data = config.external_urls.harmonic_manager
+        var harmonic_link = document.getElementsByClassName('harmonic_manager');
+        harmonic_link.href = harmonic_data;
+
+        harmonic_link[0].addEventListener("click", function(e){ e.preventDefault(); shell.openExternal(harmonic_link.href); return false; }, false); 
+
+
+        // SET Twitter account
+        var twitter_data = config.external_urls.twitter
+        var twitter_link = document.getElementsByClassName('twitter');
+        twitter_link.href = twitter_data;
+
+        var at = twitter_data.split('/');
+
+        twitter_link[0].innerHTML = twitter_link[0].innerHTML.concat(at[1])
+
+        twitter_link[0].addEventListener("click", function(e){ e.preventDefault(); shell.openExternal(twitter_link.href); return false; }, false);    
+      </script>
+    </body>
+    </html>

@@ -1,12 +1,12 @@
 {
-  "name": "create-multi-window-electron-app",
+  "name": "harmonic-manager",
   "version": "0.1.0",
   "description": "",
   "main": "app.js",
   "scripts": {
     "start": "electron ."
   },
-  "author": "Kyle Robinson Young <kyle@dontkry.com> (http://dontkry.com)",
+  "author": "Ademílson F. Tonato <ademilsonft@outlook.com> (https:twitter.com/ftonato)",
   "license": "MIT",
   "devDependencies": {
     "electron-prebuilt": "^0.28.3"
