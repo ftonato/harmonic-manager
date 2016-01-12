@@ -16,32 +16,17 @@ app.on('ready', function () {
     height: 400,
     show: false
   });
-  // defaultWindow.loadUrl('file://' + __dirname + '/prefs.html')
 
-  // Default
-  ipc.on('toggle-file', function () {
-
-    // Define the windows to open
-    defaultWindow.loadUrl('file://' + __dirname + '/prefs.html');
-
-    if (defaultWindow.isVisible())
-      defaultWindow.hide();
-    else
-      defaultWindow.show();
-  })
-
-  // MENU ABOUT
   ipc.on('toggle-about', function () {
 
     defaultWindow = new BrowserWindow({
       width: 400,
       height: 200,
       show: false,
-      resizable: false,
-      type: 'notification'
+      resizable: false
     })
 
-    // Remove MENU
+    // Remove window menu
     defaultWindow.setMenu(null)
 
     defaultWindow.loadUrl('file://' + __dirname + '/pages/about.html');
@@ -50,22 +35,5 @@ app.on('ready', function () {
       defaultWindow.hide();
     else
       defaultWindow.show();
-  })
-
-/* MENU ABOUT
-ipc.on('toggle-posts', function () {
-
-  defaultWindow.loadUrl('file://' + __dirname + '/pages/posts.html')
-  
-  if (defaultWindow.isVisible())
-    defaultWindow.hide();
-  else
-    defaultWindow.show();
-}) */
-
-  // MENU EXIT
-  ipc.on('toggle-exit', function () {
-
-    mainWindow.destroy();
   })
 })

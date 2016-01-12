@@ -4,27 +4,36 @@
   
   <link rel="stylesheet" href="http://milligram.github.io/css/milligram.min.css">
   <style>
-    #form-visible {
-      display:none;
+    #form {
+      display: none;
+    }
+    .text-center {
+      text-align: center;
     }
   </style>
 </head>
 
 <body>
-  <h1 style="text-align: center">
-   <img src="https://camo.githubusercontent.com/b8af3b8635183adf8bf76102859dd2b7b04be1d8/68747470733a2f2f63646e2e7261776769742e636f6d2f4a53526f636b7348512f6861726d6f6e69632f653339316165343632663362303437383438663137383333313564653965646162303139653139372f6861726d6f6e69632d6c6f676f2e737667" alt="Harmonic">
- </h1>
+  <h1 class="text-center">
+    <img src="./media/harmonic.svg" alt="Harmonic">
+  </h1>
 
- <br>
- <div class="container">
-  <div class="row">
-    <div class="column column-50 column-offset-25">
-      <form>
-        <fieldset>
-          <label for="default_folder_field">Selected Folder</label>
-          <input placeholder="Select a folder" id="default_folder_field" type="text" disabled="disabled">
+  <br>
+  <div class="container">
+    <div class="row">
+      <div class="column column-50 column-offset-25">
+        <div class="row">
+          <div class="column text-center">
+            <button id="new_button" class="button button-outline">New</button>
+            <button id="open_button" class="button button-outline">Open</button>
+          </div>
+        </div>
+        <form id="form">
+          <fieldset>
 
-          <div id="form-visible">
+            <label for="default_folder_field">Selected Folder</label>
+            <input placeholder="Select a folder" id="default_folder_field" type="text" disabled="disabled">
+
             <label for="nameField">Name</label>
             <input placeholder="Awesome website" id="nameField" type="text">
             <label for="titleField">Titlte</label>
@@ -41,86 +50,112 @@
             <label for="bioField">Bio</label>
             <textarea placeholder="Thats me" id="bioField"></textarea>
 
-
             <label for="domainField">Domain</label>
             <input placeholder="http://awesome.com" id="domainField" type="text">
 
-            <!-- Clear Button -->
-            <input class="button button-clear" value="Cancel" type="submit">
+            <div class="row">
+              <div class="column text-center">
+                <input class="button button-clear" type="submit" value="Cancel">
+                <button id="save_button" class="button button-outline">Save</button>
+              </div>
+            </div>
 
-            <!-- Outlined Button -->
-            <button class="button button-outline" onclick="saveFile();">Save</button>
-          </div>
-        </fieldset>
-      </form>
+          </fieldset>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 
-<script>require('./main.js');
+  <script>
+    'use strict';
+    require('./main.js');
 
-  var fs = require('fs');
-  var remote = require('remote');
-  var dialog = remote.require('dialog');
+    const fs = require('fs');
+    const remote = require('remote');
+    const dialog = remote.require('dialog');
+    const tools = require('./utils.js');
 
-  function saveFile () {
+    let folderName = null;
+    let folderField = document.getElementById('default_folder_field');
+    let form = document.getElementById('form');
 
-    var folderName = document.getElementById("default_folder_field").value;
-    var fileName = 'harmonic.json';
-    var fl = folderName+'/'+fileName;
+    let newButton = document.getElementById('new_button');
+    new_button.addEventListener('click', function() {
+      folderName = tools.newInit();
+      setFolderNameField(folderName);
 
-    var contentFile = {
-      "name": "JS Rocks",
-      "title": "JS Rocks",
-      "domain": "http://jsrocks.org",
-      "subtitle": "Powered by Harmonic",
-      "author": "JS Rocks",
-      "description": "A collaborative website about the latest JavaScript features and tools.",
-      "bio": "Thats me",
-      "theme": "harmonic-theme-jsrocks",
-      "preprocessor": "stylus",
-      "posts_permalink" : ":language/:year/:month/:title",
-      "pages_permalink": "pages/:title",
-      "header_tokens": [
-      "<!--",
-      "-->"
-      ],
-      "index_posts": 20,
-      "i18n": {
-        "default": "en",
-        "languages": [
-        "en",
-        "pt-br",
-        "cn"
-        ]
-      }
-    };
+      alert('Run command: HARMONIC INIT');
 
-    var nameField = document.getElementById("nameField").value
-    var titleField = document.getElementById("titleField").value
-    var subtitleField = document.getElementById("subtitleField").value
+      form.style.display = 'block';
 
-    var descriptionField = document.getElementById("descriptionField").value
-    var authorField = document.getElementById("authorField").value
-    var bioField = document.getElementById("bioField").value
-    var domainField = document.getElementById("domainField").value
+      let fileData = tools.getDataFile(folderName);
+      fileData = JSON.parse(fileData);
+
+      setDataInputFields(fileData);
 
 
-    contentFile.name = nameField
-    contentFile.title = titleField
-    contentFile.subtitle = subtitleField
-    contentFile.description = descriptionField
-    contentFile.author = authorField
-    contentFile.bio = bioField
-    contentFile.domain = domainField
+    }, false);
 
-    fs.writeFile(fl, JSON.stringify(contentFile), function (err, data) {
-      if (err) {
-        return console.log('Error: ' + err);
-      }
-      console.log('File saved!',data);
-    });
+  // Open Folder
+  let openButton = document.getElementById('open_button');
+  openButton.addEventListener('click', function() {
+    folderName = tools.openFolder();
+    setFolderNameField(folderName);
 
+    alert('Verify if exists Harmonic.json');
+    
+    form.style.display = 'block';
+
+    let fileData = tools.getDataFile(folderName);
+    fileData = JSON.parse(fileData);
+
+    setDataInputFields(fileData);
+
+
+  }, false);
+
+  // Save File
+  let saveButton = document.getElementById('save_button');
+  saveButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    
+    if (folderName !== null) {
+      let data = getDataInputFields();
+
+      tools.saveFile(folderName, data);
+      
+      alert('File changed!')
+    }
+  }, false);
+
+  
+  function setFolderNameField(folderName){
+    folderField.value = folderName;
+  }
+
+  function setDataInputFields(data) {
+    document.getElementById("nameField").value  = data.name;
+    document.getElementById("titleField").value = data.title;
+    document.getElementById("subtitleField").value = data.subtitle;
+
+    document.getElementById("descriptionField").value = data.description;
+    document.getElementById("authorField").value = data.author;
+    document.getElementById("bioField").value = data.bio;
+    document.getElementById("domainField").value = data.domain;
+  }
+
+  function getDataInputFields() {
+    let data = {};
+    data.name = document.getElementById("nameField").value;
+    data.title = document.getElementById("titleField").value;
+    data.subtitle = document.getElementById("subtitleField").value;
+
+    data.description = document.getElementById("descriptionField").value;
+    data.author = document.getElementById("authorField").value;
+    data.bio = document.getElementById("bioField").value;
+    data.domain = document.getElementById("domainField").value;
+
+    return data;
   }
 </script>
 </body>

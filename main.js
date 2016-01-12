@@ -11,43 +11,6 @@ var defaultFolder = null;
 
 var menu = Menu.buildFromTemplate([
 {
-  label: 'File',
-  submenu: [
-  {
-    label: 'New',
-    click: function () {
-      newFolder = dialog.showOpenDialog({title: 'Folder selected', properties: ['openDirectory']});
-
-      if (newFolder === undefined) {
-        console.log('ERROR, please, SELECT THE FOLDER');
-      } else {
-        document.getElementById('default_folder_field').value = newFolder;
-        document.getElementById('form-visible').style.display = 'block';
-
-        alert('roda o comando HARMONIC INIT');
-        getDataDefault(newFolder);
-      }
-    }
-  },
-  {
-    label: 'Open',
-    click: function () {
-      defaultFolder = dialog.showOpenDialog({title: 'Folder selected', properties: ['openDirectory']});
-
-      document.getElementById('default_folder_field').value = defaultFolder;
-
-      alert('busca o arquivo (verifica se existe), se existir carrega os dados getDataDefault(), do contrário avisa o usuário');
-    }
-  },
-  {
-    label: 'Exit',
-    click: function () {
-      ipc.send('toggle-exit');
-    }
-  }
-  ]
-},
-{
   label: 'Help',
   submenu: [
   {
@@ -77,27 +40,7 @@ var menu = Menu.buildFromTemplate([
       ipc.send('toggle-about');
     }
   }
-
   ]
 }
 ]);
-Menu.setApplicationMenu(menu)
-
-function getDataDefault(path) {
-  fs.readFile(path+'/harmonic.json', 'utf8', function (err,data) {
-    if (err) {
-      return console.log(err);
-    }
-
-    data = JSON.parse(data);
-
-    document.getElementById("nameField").value  = data.name;
-    document.getElementById("titleField").value = data.title;
-    document.getElementById("subtitleField").value = data.subtitle;
-
-    document.getElementById("descriptionField").value = data.description;
-    document.getElementById("authorField").value = data.author;
-    document.getElementById("bioField").value = data.bio;
-    document.getElementById("domainField").value = data.domain;
-  });
-}
+Menu.setApplicationMenu(menu);
