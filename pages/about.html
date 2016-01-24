@@ -29,15 +29,19 @@
 
 
         // SET Harmonic Manager
-        var harmonic_data = config.external_urls.harmonic_manager
+        var harmonic_data = config.externalUrls.harmonic_manager
         var harmonic_link = document.getElementsByClassName('harmonic_manager');
         harmonic_link.href = harmonic_data;
 
-        harmonic_link[0].addEventListener("click", function(e){ e.preventDefault(); shell.openExternal(harmonic_link.href); return false; }, false); 
+        harmonic_link[0].addEventListener("click", function(e){
+          e.preventDefault();
+          shell.openExternal(harmonic_link.href);
+          return false;
+        }, false); 
 
 
         // SET Twitter account
-        var twitter_data = config.external_urls.twitter
+        var twitter_data = config.externalUrls.twitter
         var twitter_link = document.getElementsByClassName('twitter');
         twitter_link.href = twitter_data;
 
@@ -45,7 +49,11 @@
 
         twitter_link[0].innerHTML = twitter_link[0].innerHTML.concat(at[1])
 
-        twitter_link[0].addEventListener("click", function(e){ e.preventDefault(); shell.openExternal(twitter_link.href); return false; }, false);    
+        twitter_link[0].addEventListener("click", function(e){
+          e.preventDefault();
+          shell.openExternal(twitter_link.href);
+          return false;
+        }, false);    
       </script>
     </body>
     </html>

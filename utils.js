@@ -1,14 +1,15 @@
-var fs = require('fs');
-var remote = require('remote');
-var dialog = remote.require('dialog');
+'use strict';
+const fs = require('fs');
+const remote = require('remote');
+const dialog = remote.require('dialog');
 
-var nameFileDefault = 'harmonic.json';
+const nameFileDefault = 'harmonic.json';
 
 module.exports = {
-  newInit: function () {
+  newInit: function() {
     //alert('NEW INIT');
 
-    var newFolder = dialog.showOpenDialog({title: 'Folder selected', properties: ['openDirectory']});
+    let newFolder = dialog.showOpenDialog({title: 'Folder selected', properties: ['openDirectory']});
 
     if (newFolder === undefined) {
       console.log('Error, please select the folder!');
@@ -16,8 +17,8 @@ module.exports = {
       return newFolder;
     }
   },
-  openFolder: function () {
-    var openFolder = dialog.showOpenDialog({title: 'Folder selected', properties: ['openDirectory']});
+  openFolder: function() {
+    let openFolder = dialog.showOpenDialog({title: 'Folder selected', properties: ['openDirectory']});
 
     if (openFolder === undefined) {
       console.log('Error, please select the folder!');
@@ -25,16 +26,16 @@ module.exports = {
       return openFolder;
     }
   },
-  getDataFile: function (path) {
-    return fs.readFileSync(path + '/' + nameFileDefault, 'utf8', function (err, data) {
+  getDataFile: function(path) {
+    return fs.readFileSync(path + '/' + nameFileDefault, 'utf8', function(err, data) {
       if (err) {
         console.log('Error: ' + err);
       }
       return data;
     });
   },
-  saveFile: function (path, contentFile) {
-    return fs.writeFileSync(path + '/' + nameFileDefault, JSON.stringify(contentFile), 'utf8', function (err, data) {
+  saveFile: function(path, contentFile) {
+    return fs.writeFileSync(path + '/' + nameFileDefault, JSON.stringify(contentFile), 'utf8', function(err, data) {
       if (err) {
         console.log('Error: ' + err);
       }

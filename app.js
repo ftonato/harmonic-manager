@@ -1,39 +1,42 @@
-var app = require('app');
-var BrowserWindow = require('browser-window');
-var ipc = require('ipc');
+'use strict';
+const app = require('app');
+const BrowserWindow = require('browser-window');
+const ipc = require('ipc');
 
-app.on('ready', function () {
-  var mainWindow = new BrowserWindow({
+app.on('ready', function() {
+  let mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    icon: './media/favicon.png'
   });
   mainWindow.loadUrl('file://' + __dirname + '/main.html');
-  
+
   //mainWindow.openDevTools()
 
-  var defaultWindow = new BrowserWindow({
+  let defaultWindow = new BrowserWindow({
     width: 400,
     height: 400,
     show: false
   });
 
-  ipc.on('toggle-about', function () {
+  ipc.on('toggle-about', function() {
 
     defaultWindow = new BrowserWindow({
       width: 400,
       height: 200,
       show: false,
       resizable: false
-    })
+    });
 
     // Remove window menu
-    defaultWindow.setMenu(null)
+    defaultWindow.setMenu(null);
 
     defaultWindow.loadUrl('file://' + __dirname + '/pages/about.html');
-    
-    if (defaultWindow.isVisible())
+
+    if (defaultWindow.isVisible()) {
       defaultWindow.hide();
-    else
+    } else {
       defaultWindow.show();
-  })
-})
+    }
+  });
+});
